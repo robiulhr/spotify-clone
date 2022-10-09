@@ -1,34 +1,29 @@
-import React, { useEffect } from "react";
-import axios from "axios";
-import { setUser, setErroMassage } from "../../app/reducer/appReducer";
-import {  useDispatch } from "react-redux";
-import Nav from "../../component/nav";
+import React from "react";
+import { Typography } from "@mui/material";
+import "./home.scss";
+import PlaylistCart from "../../component/playlistCart";
 
-const Home = () => {
-  const dispatch = useDispatch();
-  const token = window.localStorage.getItem("accesstoken");
+const Home = ({featured}) => {
 
-  useEffect(() => {
-    axios
-      .get("https://api.spotify.com/v1/me", {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      })
-      .then((response) => {
-        // handle success
-        dispatch(setUser(response.data));
-      })
-      .catch((error) => {
-        // handle error
-        dispatch(setErroMassage("something went wrong."));
-      });
-  },[dispatch,token]);
-
-
-  return <div>
-      <Nav/>
-  </div>;
+  return (
+    <div className="Home-Wrapper">
+      <div>
+        <div className="home-content-div">
+          {/* <Typography>{featured.message}</Typography> */}
+          <div>
+            {/* {featured?.playlists?.items.map((ele) => (
+              <PlaylistCart
+                key={ele.name}
+                image={ele.images[0].url}
+                name={ele.name}
+                description={ele.description}
+              />
+            ))} */}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Home;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -14,17 +14,29 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import bgImage from "../assets/img/music-club.jpg";
 import spotifyLogo from "../assets/img/logo/spotify-logo.png";
-import { spotifyAuthenticateUrl } from "../utils/spotify";
+import { spotifyAuthenticateUrl, ExtracAccessToken } from "../utils/spotify";
 import "./login.scss";
-
+import { useNavigate } from "react-router-dom";
+import { spotifyApi } from "../utils/spotify";
 const theme = createTheme();
 
 export default function Login() {
+  const navigate = useNavigate();
+  useEffect(() => {
+  let token ="";
+    const hash = window.location.hash;
+    if (hash) {
+        token = ExtracAccessToken(hash);
+      window.localStorage.setItem("accessToken", token);
+       window.location.hash = "";
+    }
+    spotifyApi.setAccessToken(token);
+    if (token) navigate("/");
+  }, [navigate]);
+
   const handleLoginSubmit = (event) => {
     event.preventDefault();
   };
-
-
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: "100vh" }}>
@@ -138,7 +150,14 @@ export default function Login() {
                 <Typography sx={{ mx: 2 }}>Sign In with spotify</Typography>
               </Button>
             </Box>
-            <Box component={"div"} sx={{ width: "100%",display:"flex",justifyContent:"space-around" }}>
+            <Box
+              component={"div"}
+              sx={{
+                width: "100%",
+                display: "flex",
+                justifyContent: "space-around",
+              }}
+            >
               <Link href="#" variant="body2">
                 Forgot password?
               </Link>

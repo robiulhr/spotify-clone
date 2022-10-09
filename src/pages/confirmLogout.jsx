@@ -1,20 +1,17 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getUser } from "../app/reducer/appReducer";
-import { useSelector } from "react-redux";
 import { Button } from "@mui/material";
 import "./confirmLogout.scss";
 const ConfirmLogout = () => {
   const navigate = useNavigate();
-  const user = useSelector(getUser);
-
+    let user = {}
   let userProfile, display_name, followers, country, userEmail;
   if (user) {
-    userProfile = user.images[0].url;
-    display_name = user.display_name;
-    followers = user.followers.total;
-    country = user.country;
-    userEmail = user.email;
+    // userProfile = user.images[0].url;
+    // display_name = user.display_name;
+    // followers = user.followers.total;
+    // country = user.country;
+    // userEmail = user.email;
   }
   const removeToken = () => {
     window.localStorage.removeItem("accesstoken");
@@ -23,7 +20,7 @@ const ConfirmLogout = () => {
 
   return (
     <div>
-      <div className="wrapper">
+      {/* <div className="wrapper">
         <div className="profile-card js-profile-card">
           <div className="profile-card__img">
             <img src={userProfile} alt="profile card" />
@@ -65,7 +62,7 @@ const ConfirmLogout = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

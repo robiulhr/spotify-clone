@@ -1,44 +1,37 @@
 import React from "react";
-import { createBrowserRouter, redirect } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import PageNotFound from "./pages/pageNotFound";
 import "./main.scss";
 import Login from "./pages/login";
 import Home from "./pages/home/home";
-import { ExtracAccessToken } from "./utils/spotify";
 import ConfirmLogout from "./pages/confirmLogout";
+import Wrapper from "./pages/wrapper";
+import Playlist from "./pages/Playlist";
 
 const App = createBrowserRouter([
   {
     path: "/",
-    element: <Home />,
-    errorElement: <PageNotFound />,
-    loader: ({ params }) => {
-      const hash = window.location.hash;
-      let accesstoken = window.localStorage.getItem("accesstoken");
-      if (!accesstoken && hash) {
-        accesstoken = ExtracAccessToken(hash);
-        window.location.hash = "";
-        window.localStorage.setItem("accesstoken", accesstoken);
-      }
-      if(!accesstoken) return redirect("/login");
-
+    element: <Wrapper />,
+    // errorElement: <PageNotFound />,
+    children:[{
+        path: "/",
+        element: <Home />,
     },
+    {
+      path:"/playlist/:id",
+      element:<Playlist/>
+    }
+  ]
   },
   {
     path: "login",
     element: <Login />,
-    loader:({params})=>{
-      let accesstoken = window.localStorage.getItem("accesstoken");
-      if(accesstoken) return redirect("/")
-    }
+    errorElement: <PageNotFound />,
   },
   {
     path:"confirmlogout",
     element:<ConfirmLogout/>,
-    loader:({params})=>{
-      let accesstoken = window.localStorage.getItem("accesstoken");
-      if(!accesstoken) return redirect("/login")
-    }
+    errorElement: <PageNotFound />,
   }
 ]);
 

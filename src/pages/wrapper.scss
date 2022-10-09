@@ -1,0 +1,25 @@
+.main-wrapper {
+    height: 100%;
+    width: 100%;
+     background-color: #bddeffba;
+    & .main-content {
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+        justify-content: center;
+        height: calc(100% - 130px);
+        margin-top: 10px;
+
+        & .sidebar-wrapper {
+            width: 300px;
+            height: 100%;
+            margin: 10px;
+        }
+        & .content-wrapper{
+            width: calc(100% - 300px);
+            min-height: 100%;
+            margin: 10px;
+
+        }
+    }
+}

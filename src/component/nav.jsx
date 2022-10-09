@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -10,17 +10,17 @@ import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import { useSelector } from "react-redux";
-import { getUser } from "../app/reducer/appReducer";
 import { Link } from "react-router-dom";
-const Nav = () => {
-  const user = useSelector(getUser);
-  let userProfile;
-  if (user) {
-    userProfile = user.images[0].url;
-  }
+const Nav = ({ user }) => {
+  let [userProfile, setUserProfile] = useState();
+  useEffect(() => {
+    if (user.images) {
+      setUserProfile(user?.images[0]?.url);
+      console.log(userProfile)
+    }
+  }, [userProfile]);
 
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -31,8 +31,8 @@ const Nav = () => {
   };
 
   return (
-    <AppBar position="static">
-      <Container maxWidth="xl">
+    <AppBar position="static" sx={{ background: "#082644cf" }}>
+      <Container maxWidth="2xl">
         <Toolbar
           disableGutters
           sx={{ display: "flex", justifyContent: "space-between" }}
@@ -89,7 +89,10 @@ const Nav = () => {
               <MenuItem key={"Dashboard"} onClick={() => setAnchorElUser(null)}>
                 <Typography textAlign="center">{"Dashboard"}</Typography>
               </MenuItem>
-              <MenuItem key={"Logout"} sx={{"& a":{textDecoration:"none",color:"inherit"}}}>
+              <MenuItem
+                key={"Logout"}
+                sx={{ "& a": { textDecoration: "none", color: "inherit" } }}
+              >
                 <Link to={"/confirmlogout"}>
                   <Typography textAlign="center">{"Logout"}</Typography>
                 </Link>

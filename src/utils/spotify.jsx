@@ -1,4 +1,5 @@
 import randomString from "random-string";
+import SpotifyWebApi from "spotify-web-api-node";
 
 const scopes = [
   "ugc-image-upload",
@@ -22,8 +23,12 @@ const scopes = [
   "user-follow-modify",
   "user-follow-read",
 ];
-const state = randomString({ length: 20 });
-
+export const state = randomString({ length: 20 });
+export const spotifyApi = new SpotifyWebApi({
+  clientId: process.env.REACT_APP_CLIENT_ID,
+  clientSecret: state,
+  redirectUri:process.env.REACT_APP_REDIRECT_URL 
+});
 export const spotifyAuthenticateUrl = `${
   process.env.REACT_APP_AUTH_ENDPOINT
 }?client_id=${process.env.REACT_APP_CLIENT_ID}&redirect_uri=${
